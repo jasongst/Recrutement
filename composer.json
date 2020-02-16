@@ -39,7 +39,8 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "process-timeout": 0
     },
     "autoload": {
         "psr-4": {
@@ -70,7 +71,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "run": "php -S 127.0.0.1:8000 -t public"
     },
     "conflict": {
         "symfony/symfony": "*"
