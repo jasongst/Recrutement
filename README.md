@@ -10,13 +10,13 @@ Le but de ce projet est de créer une **application web** basée sur **symfony**
 -	Le projet utilisera uniquement des dépendances composer (aucun programme externe au php)
 -	L’interface html devra être celle fournie
 -	La page ne doit pas être rechargée lors de l’upload d’une image, et il devra être possible de mettre plusieurs images en ligne en même temps
--	Il sera possible de supprimer les images
+-	Il sera possible de mettre des images en ligne via un glisser-déposer ou via le champ de formulaire
 
 ## Extra
 
-Cette section comprend les fonctionnalités non primordiales, mais prouvant votre niveau de programmation
+Cette section comprend les fonctionnalités complémentaires, à faire uniquement si vous avez passé moins d'une heure / d'une heure trente sur le projet jusque la.
 
--	Il sera possible de mettre des images en ligne via un glisser-déposer
+-	Il sera possible de supprimer les images
 -	Barre de chargement de l’upload (pour une ou plusieurs images)
 -	Plusieurs galeries séparées
 -	Date de dernière modification
