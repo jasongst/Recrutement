@@ -97,8 +97,8 @@
   <div class="card-header">
     <div class="pull-right">
       <select class="form-control" id="galleryChoice">
-        <option value="0" selected>Galerie principale</option>
-        <option value="1">Autre galerie(extra)</option>
+        <option>Galerie principale</option>
+        <option>Autre galerie(extra)</option>
       </select>
     </div>
     Galerie d'images - Recrutement Home-Viewer
@@ -157,12 +157,14 @@
 
   <script>
     function delEvent(elem){
+      // The id of the button is something like "buttonDel{imageId]", so it delete the "buttonDel" part to get only the image id
       var id = parseInt($(elem).attr("id").substr(9),10);
       $.ajax({
         type: "POST",
         url: "{{ path('delete') }}",
         data : {"id": id},
         success: function(data){
+          //Delete all the previous alert and show the new one
           $('.alert').remove();
           $("#"+id).remove();
           $('.card-body').append('<div class="alert alert-info" role="alert"> L\'image ' + data["aliases"] + ' a été correctement supprimé.</div>');
@@ -191,9 +193,11 @@
         processData: false,
         cache: false,
         success: function (data) {
+          //Delete all the previous alert and show a success or error alert
           $('.alert').remove();
           if (data['error'] === 'none') {
             console.log(data);
+            //If the server return no error, then append the gallery with the new image and his modal box
             $(".gallery .upload-box-container").before(
                     '<div class="image" id=' + data["id"] + '> <div class="image-del"> <a type="button" class=\"btn btn-dark delete\" id=\"buttonDel' + data["id"] + '\" onclick=\"delEvent(this)\">Supprimer</a>' +
                     '<a type="button" class=\"btn btn-dark show\" id=\"buttonShow' + data["id"] + '\" onclick=\"show(this)\">Agrandir</a> <div class="image-del-background"></div></div>' +
@@ -220,6 +224,9 @@
       });
     }
 
+
+    // The following part prevent any unwanted behaviors for the assigned events across browsers.
+
     $(document).on('dragenter', '#dropfile', function() {
       $(this).css('border', '2px dashed black');
       return false;
@@ -237,22 +244,14 @@
       return false;
     });
 
+    // Catch the file when it's dropped and send it as a parameter in the uploadAction function
+
     $(document).on('drop', '#dropfile', function(e) {
         e.preventDefault();
         e.stopPropagation();
         // Main function to upload
         uploadAction(e.originalEvent.dataTransfer.files[0]);
       });
-
-    $("select").change(function(){
-      var selectedGallery = $(this).children("option:selected").val();
-      if(selectedGallery === 1){
-
-      }
-      else {
-
-      }
-    });
 
   </script>
 {% endblock %}

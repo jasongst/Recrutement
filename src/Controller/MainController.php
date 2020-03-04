@@ -36,20 +36,23 @@ class MainController extends AbstractController
             $file = $request->files->get('image');
             // $file is an UploadedFile - https://github.com/symfony/symfony/blob/2.8/src/Symfony/Component/HttpFoundation/File/UploadedFile.php
 
-            // Check valid extensions
+            // Check if the file have a valid image extension
             $valid_extensions = array("jpg","jpeg","png");
             $fileExtension = $file->guessExtension();
             if (!in_array($fileExtension,$valid_extensions)) {
                 return new JsonResponse(array('error' => 'Invalid image type'));
             }
 
-
+            // Generate an unique id and hash it with MD5 to get a different filename for each image
             $fileName = md5(uniqid()).'.'.$fileExtension;
             $size = getimagesize($file);
+
+            //Aliases is the original name of the image
             $aliases = $file->getClientOriginalName();
 
             $galleryImage->setAliases($aliases);
 
+            //Move the file into the "/public/uploads" directory of the server
             $file->move($this->getParameter('upload_dir'), $fileName);
 
             $galleryImage->setName($fileName);
@@ -65,6 +68,8 @@ class MainController extends AbstractController
             $entityManager->persist($galleryImage);
             $entityManager->flush();
 
+
+            //Return a Json Response to the client side with all the necessary data
             return new JsonResponse(array(
                 'error' => 'none',
                 'id' => $galleryImage->getId(),
@@ -75,6 +80,7 @@ class MainController extends AbstractController
             );
         }
 
+        //Return an error if the request is not an XMLHttpRequest type of request
         return new JsonResponse(array('error' => 'Request type problem'));
     }
 
